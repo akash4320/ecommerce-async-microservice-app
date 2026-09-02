@@ -1,0 +1,21 @@
+services:
+
+  product-service:
+    build:
+      context: ./services/product-service
+    container_name: ecommerce-product-service
+    env_file:
+      - ./services/product-service/.env.docker
+    ports:
+      - "8082:8082"
+
+  api-gateway:
+    build:
+      context: ./gateway
+    container_name: ecommerce-api-gateway
+    env_file:
+      - ./gateway/.env.docker
+    ports:
+      - "8080:8080"
+    depends_on:
+      - product-service

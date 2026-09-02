@@ -1,5 +1,6 @@
 const app = require("./app");
 const pool = require("./config/database");
+const { connectRedis } = require('./config/redis');
 
 const PORT = process.env.PORT || 8082;
 
@@ -9,7 +10,9 @@ const startServer = async () => {
 
     console.log("MySQL connection successful");
 
-    app.listen(PORT, () => {
+    await connectRedis();
+
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`Product Service running on port ${PORT}`);
     });
   } catch (error) {
